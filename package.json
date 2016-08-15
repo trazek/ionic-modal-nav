@@ -1,0 +1,22 @@
+{
+  "name": "ionic-modal-nav",
+  "version": "1.0.8",
+  "description": "Angular service used to orchestrate multiple states within an $ionicModal. This can control the modal for an entire application or just when the users needs navigation within a modal body. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ionic",
+    "$ionicModal",
+    "Angular",
+    "navigation",
+    "modal"
+  ],
+  "author": "Andrew Ferguson <ferguson.am@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trazek/ionic-modal-nav-example.git"
+  }
+}
