@@ -59,7 +59,7 @@ the modal is closed.
 ##### IonicModalNavService.go(modalState, data)
 Wrapper around the usual `$state.go()`. If data is passed, it will be sent.
  
-~~~~
+~~~
 @param {string} modalState
 @param {object} state data
 ~~~
