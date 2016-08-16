@@ -20,7 +20,21 @@ angular.module('app', [
 ~~~
 
 _If you are not using ES6, you can use browserify to transpile and manually reference the file in your index.html file_
-_Or you can reference the es5 version of the file, found in `dist/` called `ionic-modal-nav-es5.js` (credit to @zeeshan-m for this)_
+_Or you can reference the es5 version of the file, found in `src/` called `ionic-modal-nav-es5.js` (credit to @zeeshan-m for this)_
+
+Optionally configure modal options:
+
+~~~
+angular.module('app')
+    .config((IonicModalNavServiceProvider) => {
+        IonicModalNavServiceProvider.setModalOptions({
+             animation: "slide-in-up", //supports whatever Ionic supports
+             focusFirstInput: false,
+             backdropClickToClose: true,
+             hardwareBackButtonClose: true
+        });
+    });
+~~~
 
 Inject into your controllers:
 
@@ -45,6 +59,24 @@ $stateProvider.state('modal-view', {
 ~~~
 
 ## API
+
+##### IonicModalServiceProvider.setModalOptions({options})
+Allows users to configure the modal nav similar to how Ionic allows.
+
+~~~
+@params.options
+
+@params.options.animation  - The animation to show & hide with.
+
+@params.options.focusFirstInput - Whether to autofocus the first input of the modal when shown. 
+Will only show the keyboard on iOS, to force the keyboard to show on Android, 
+please use the Ionic keyboard plugin.
+
+@params.options.backdropClickToClose - Whether to close the modal on clicking the backdrop.
+
+@params.options.hardwareBackButtonClose - Whether the modal can be closed using the hardware back 
+button on Android and similar devices.
+~~~
 
 ##### IonicModalNavService.show(modalState, data)
 Open the modal and transition to the given modal state with no animation.

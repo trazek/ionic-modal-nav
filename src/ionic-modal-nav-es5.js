@@ -36,7 +36,7 @@ var MODAL_CLOSE_DATA = "ionicModalNav:closeData";
  */
 
 var IonicModalNavService = function () {
-    function IonicModalNavService($ionicModal, $rootScope, $state, $ionicHistory, $ionicViewSwitcher) {
+    function IonicModalNavService($ionicModal, $rootScope, $state, $ionicHistory, $ionicViewSwitcher, modalOptions) {
         var _this = this;
 
         _classCallCheck(this, IonicModalNavService);
@@ -55,7 +55,11 @@ var IonicModalNavService = function () {
         if (!this._modal) {
             //Set up modal with a separate named ion-nav-view
             this._modal = $ionicModal.fromTemplate("\n                <ion-modal-view> \n                    <ion-nav-view name=\"ionic-modal-nav\"></ion-nav-view>\n                </ion-modal-view>\n            ", {
-                scope: $rootScope
+                scope: $rootScope,
+                animation: modalOptions.animation,
+                focusFirstInput: modalOptions.focusFirstInput,
+                backdropClickToClose: modalOptions.backdropClickToClose,
+                hardwareBackButtonClose: modalOptions.hardwareBackButtonClose
             });
 
             /**
@@ -229,12 +233,41 @@ var IonicModalNavService = function () {
     return IonicModalNavService;
 }();
 
-IonicModalNavService.$inject = ['$ionicModal', '$rootScope', '$state', '$ionicHistory', '$ionicViewSwitcher'];
+var IonicModalNavServiceConfig = function () {
+    function IonicModalNavServiceConfig() {
+        _classCallCheck(this, IonicModalNavServiceConfig);
+
+        this.options = {
+            animation: "slide-in-up",
+            focusFirstInput: false,
+            backdropClickToClose: true,
+            hardwareBackButtonClose: true
+        };
+    }
+
+    _createClass(IonicModalNavServiceConfig, [{
+        key: "setModalOptions",
+        value: function setModalOptions(options) {
+            this.options.animation = options ? options.animation : this.options.animation;
+            this.options.focusFirstInput = options ? options.focusFirstInput : this.options.focusFirstInput;
+            this.options.backdropClickToClose = options ? options.backdropClickToClose : this.options.backdropClickToClose;
+            this.options.hardwareBackButtonClose = options ? options.hardwareBackButtonClose : this.options.hardwareBackButtonClose;
+        }
+    }, {
+        key: "$get",
+        value: function $get($ionicModal, $rootScope, $state, $ionicHistory, $ionicViewSwitcher) {
+            return new IonicModalNavService($ionicModal, $rootScope, $state, $ionicHistory, $ionicViewSwitcher, this.options);
+        }
+    }]);
+
+    return IonicModalNavServiceConfig;
+}();
+
+// --- Declare module -- 
 
 var moduleName = 'IonicModalNav';
 
-angular.module(moduleName, []).service('IonicModalNavService', IonicModalNavService);
+angular.module(moduleName, []).provider('IonicModalNavService', IonicModalNavServiceConfig);
 
 exports.default = moduleName;
-
 },{}]},{},[1]);

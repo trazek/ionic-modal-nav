@@ -25,7 +25,7 @@ const MODAL_CLOSE_DATA = "ionicModalNav:closeData";
  */
 
 class IonicModalNavService {
-    constructor($ionicModal, $rootScope, $state, $ionicHistory, $ionicViewSwitcher) {
+    constructor($ionicModal, $rootScope, $state, $ionicHistory, $ionicViewSwitcher, modalOptions) {
 
         this._$rootScope = $rootScope;
         this._$state = $state;
@@ -45,7 +45,11 @@ class IonicModalNavService {
                     <ion-nav-view name="ionic-modal-nav"></ion-nav-view>
                 </ion-modal-view>
             `, {
-                scope: $rootScope
+                scope: $rootScope,
+                animation: modalOptions.animation,
+                focusFirstInput: modalOptions.focusFirstInput,
+                backdropClickToClose: modalOptions.backdropClickToClose,
+                hardwareBackButtonClose: modalOptions.hardwareBackButtonClose
             });
 
             /**
@@ -190,11 +194,33 @@ class IonicModalNavService {
     }
 }
 
-IonicModalNavService.$inject = ['$ionicModal', '$rootScope', '$state', '$ionicHistory', '$ionicViewSwitcher'];
+class IonicModalNavServiceConfig {
+    constructor() {
+        this.options = {
+            animation: "slide-in-up",
+            focusFirstInput: false,
+            backdropClickToClose: true,
+            hardwareBackButtonClose: true
+        };
+    }
+
+    setModalOptions(options) {
+        this.options.animation = (options) ? options.animation : this.options.animation;
+        this.options.focusFirstInput = (options) ? options.focusFirstInput : this.options.focusFirstInput;
+        this.options.backdropClickToClose = (options) ? options.backdropClickToClose : this.options.backdropClickToClose;
+        this.options.hardwareBackButtonClose = (options) ? options.hardwareBackButtonClose : this.options.hardwareBackButtonClose;
+    }
+
+    $get($ionicModal, $rootScope, $state, $ionicHistory, $ionicViewSwitcher) {
+        return new IonicModalNavService($ionicModal, $rootScope, $state, $ionicHistory, $ionicViewSwitcher, this.options);
+    }
+}
+
+// --- Declare module -- 
 
 let moduleName = 'IonicModalNav';
 
 angular.module(moduleName, [])
-    .service('IonicModalNavService', IonicModalNavService);
+    .provider('IonicModalNavService', IonicModalNavServiceConfig)
 
 export default moduleName;
